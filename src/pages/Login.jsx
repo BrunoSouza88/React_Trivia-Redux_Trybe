@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { fetchToken } from '../redux/actions';
 
 class Login extends React.Component {
   state = {
@@ -32,18 +33,23 @@ class Login extends React.Component {
     return history.push('/settings');
   };
 
-  // handleClick = () => {
-  //   const { email } = this.state;
-  //   const { history, dispatch } = this.props;
-  //   dispatch(SaveUserEmail(email));
-  //   return history.push('/carteira');
-  // }
+  saveLocalStorage = (data) => {
+    localStorage.setItem('token', data);
+  };
+
+  handleClick = async () => {
+    const { history, dispatch } = this.props;
+
+    const token = await dispatch(fetchToken());
+
+    this.saveLocalStorage(token);
+
+    history.push('/game');
+  };
 
   render() {
     const {
-      // password,
       email,
-      // validPassword,
       validEmail,
       name,
       validName,

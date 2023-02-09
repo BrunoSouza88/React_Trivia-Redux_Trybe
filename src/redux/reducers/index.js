@@ -1,14 +1,21 @@
 import { combineReducers } from 'redux';
+import { START_GAME } from '../actions';
 
-const INITIAL_STATE = {};
+const INITIAL_STATE = {
+  token: '',
+};
 
-const exampleReducer = (state = INITIAL_STATE, action) => {
+const startReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
+  case START_GAME:
+    return {
+      token: action.payload,
+    };
   default:
     return state;
   }
 };
 
-const rootReducer = combineReducers({ exampleReducer });
+const rootReducer = combineReducers({ startReducer });
 
 export default rootReducer;
