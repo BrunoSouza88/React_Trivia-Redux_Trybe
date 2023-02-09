@@ -33,7 +33,7 @@ class Login extends React.Component {
   //   const { history, dispatch } = this.props;
   //   dispatch(SaveUserEmail(email));
   //   return history.push('/carteira');
-  // };
+  // }
 
   render() {
     const {
