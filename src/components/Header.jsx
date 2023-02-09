@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 class Header extends Component {
   render() {
     const { name, email } = this.props;
-
+    // teste
     return (
       <div>
         <img
