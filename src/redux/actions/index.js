@@ -1,8 +1,15 @@
-// ACTIONS TYPES
-export const ADD_EMAIL = 'ADD_EMAIL';
+import { ADD_NAME, ADD_EMAIL } from './actionTypes';
 
-// ACTIONS CREATORS
+export const addName = (name) => ({
+  type: ADD_NAME,
+  payload: {
+    name,
+  },
+});
+
 export const addEmail = (email) => ({
   type: ADD_EMAIL,
-  email,
-})
+  payload: {
+    email,
+  },
+});

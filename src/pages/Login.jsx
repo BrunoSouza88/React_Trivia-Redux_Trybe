@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-
 class Login extends React.Component {
   state = {
     email: '',
@@ -42,12 +41,12 @@ class Login extends React.Component {
       // validPassword,
       validEmail,
       name,
-      validName
+      validName,
     } = this.state;
 
     return (
-      <div >
-        <div >
+      <div>
+        <div>
           <form action="form">
             <input
               type="email"
@@ -84,12 +83,5 @@ class Login extends React.Component {
     );
   }
 }
-
-Login.propTypes = {
-  history: PropTypes.shape({
-    push: PropTypes.func,
-  }).isRequired,
-  dispatch: PropTypes.func.isRequired,
-};
 
 export default connect()(Login);
