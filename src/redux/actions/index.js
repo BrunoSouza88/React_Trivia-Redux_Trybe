@@ -2,6 +2,7 @@
 export const START_GAME = 'START_GAME';
 
 // ACTIONS CREATORS
+
 export const startGame = (payload) => ({
   type: START_GAME,
   payload,

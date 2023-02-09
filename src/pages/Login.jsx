@@ -28,6 +28,11 @@ class Login extends React.Component {
     });
   };
 
+  handleSettings = () => {
+    const { history } = this.props;
+    return history.push('/settings');
+  };
+
   saveLocalStorage = (data) => {
     localStorage.setItem('token', data);
   };
@@ -84,6 +89,14 @@ class Login extends React.Component {
           >
             Play
           </button>
+          <button
+            onClick={ this.handleSettings }
+            type="button"
+            title="ConfigButton"
+            data-testid="btn-settings"
+          >
+            Configuração
+          </button>
         </div>
       </div>
     );
@@ -94,7 +107,7 @@ Login.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
-  dispatch: PropTypes.func.isRequired,
+  // dispatch: PropTypes.func.isRequired,
 };
 
 export default connect()(Login);
