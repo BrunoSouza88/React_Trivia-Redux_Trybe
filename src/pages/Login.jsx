@@ -1,6 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+
 import { fetchToken } from '../redux/actions';
 
 class Login extends React.Component {
@@ -102,6 +103,7 @@ class Login extends React.Component {
     );
   }
 }
+
 
 Login.propTypes = {
   history: PropTypes.shape({
