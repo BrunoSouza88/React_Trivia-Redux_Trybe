@@ -5,17 +5,15 @@ const INITIAL_STATE = {
   email: '',
 };
 
-const user = (state = INITIAL_STATE, action) => {
+const User = (state = INITIAL_STATE, action) => {
   switch (action.type) {
   case ADD_NAME:
     return {
-      ...state,
       name: action.payload.name,
     };
 
   case ADD_EMAIL:
     return {
-      ...state,
       email: action.payload.email,
     };
 
@@ -24,4 +22,4 @@ const user = (state = INITIAL_STATE, action) => {
   }
 };
 
-export default user;
+export default User;

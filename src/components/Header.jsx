@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 class Header extends Component {
   render() {
     const { name, email } = this.props;
-    // teste
+    console.log(name, email);
     return (
       <div>
         <img
@@ -21,8 +21,8 @@ class Header extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  ...state.user,
+const mapStateToProps = (globalState) => ({
+  user: globalState.user,
 });
 
 export default connect(mapStateToProps)(Header);

@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import { START_GAME } from '../actions';
+import User from './user';
 
 const INITIAL_STATE = {
   token: '',
@@ -16,6 +17,6 @@ const startReducer = (state = INITIAL_STATE, action) => {
   }
 };
 
-const rootReducer = combineReducers({ startReducer });
+const rootReducer = combineReducers({ startReducer, User });
 
 export default rootReducer;

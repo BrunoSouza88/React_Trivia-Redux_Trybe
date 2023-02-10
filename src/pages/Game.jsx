@@ -1,18 +1,51 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import MultipleChoice from '../components/MultipleChoice';
+import TrueOrFalse from '../components/TrueOrFalse';
 
 class Game extends React.Component {
   constructor() {
     super();
     this.state = {
       results: [],
+      question: {
+        category: '',
+        type: '',
+        difficulty: '',
+        question: '',
+        correct_answer: '',
+        incorrect_answers: [],
+      },
+      sortAnswer: [],
+      questionPosition: 0,
+      time: 0,
     };
 
     this.getQuestion = this.getQuestion.bind(this);
+    this.clearTime = this.clearTime.bind(this);
+    this.stopWatch = this.stopWatch.bind(this);
+    this.generateQuestion = this.generateQuestion.bind(this);
   }
 
-  async componentDidMount() {
-    await this.getQuestion();
+  componentDidMount() {
+    this.getQuestion();
+    this.stopWatch();
+  }
+
+  componentDidUpdate(props, state) {
+    const end = -1;
+    if (state.time === end) {
+      this.clearTime();
+      this.generateQuestion();
+    }
+  }
+
+  componentWillUnmount() {
+    const { questionPosition } = this.state;
+    const maxNumber = 5;
+    if (questionPosition > maxNumber) {
+      clearInterval(this.killSpotWatch);
+    }
   }
 
   async getQuestion() {
@@ -32,59 +65,79 @@ class Game extends React.Component {
     }
   }
 
-  raffleAnswer(answer) {
-    const sortAnswer = [];
+  clearTime() {
+    this.setState({
+      time: 30,
+    });
+  }
+
+  stopWatch() {
+    const ONE_SECUND = 1000;
+    this.killSpotWatch = setInterval(() => {
+      const { time } = this.state;
+      const secund = time - 1;
+      this.setState({
+        time: secund,
+      });
+    }, ONE_SECUND);
+  }
+
+  generateQuestion() {
+    const { results, questionPosition } = this.state;
+    const question = results[questionPosition];
+    const nextPosition = questionPosition + 1;
+    const answer = [question.correct_answer, ...question.incorrect_answers];
+    const sortAnswer = this.randomAnswer(answer);
+    this.setState({
+      question,
+      questionPosition: nextPosition,
+      sortAnswer,
+    });
+  }
+
+  randomAnswer(answer) {
     for (let index = 0; index < answer.length; index += 1) {
-      const sort = Math.floor(Math.random() * (index + 1));
-      [answer[index], answer[sort]] = [answer[sort], answer[index]];
+      const position = Math.floor(Math.random() * (index + 1));
+      [answer[index], answer[position]] = [answer[position], answer[index]];
     }
-    return sortAnswer;
+    return answer;
   }
 
   render() {
     const {
-      results: {
-        category,
-        question,
-        correct_answer,
-        incorrect_answers,
-      } } = this.state;
-    const answer = [correct_answer, ...incorrect_answers];
-    const raffledAnswer = this.raffleAnswer(answer);
+      question,
+      time,
+      sortAnswer,
+    } = this.state;
+
     return (
       <div>
-        <p data-testid="question-category">{category}</p>
-        <p data-testid="question-text">{question}</p>
-        <div>
-          {
-            answer.length > 2
-              ? raffledAnswer.map((data, index) => (
-                <p
-                  key={ index }
-                  data-testid={
-                    data === correct_answer
-                      ? 'correct-answer'
-                      : `wrong-answer-${index}`
-                  }
-                >
-                  {data}
-                </p>
-              )) : <div>
-                <button
-                  data-testid="answer-options"
-                  type="button"
-                >
-                  {correct_answer}
-                </button>
-                <button
-                  data-testid="answer-options"
-                  type="button"
-                >
-                  {incorrect_answers}
-                </button>
-              </div>
-          }
-        </div>
+        <p data-testid="question-category">
+          { question.category }
+        </p>
+        <p data-testid="question-text">
+          { question.question }
+        </p>
+        {
+          sortAnswer && time > 0
+            ? <p>{time}</p>
+            : null
+        }
+        {
+          sortAnswer && time > 0
+            ? (
+              <MultipleChoice
+                answer={ sortAnswer }
+                correct={ question.correct_answer }
+              />
+            )
+            : (
+              <TrueOrFalse
+                answer={ sortAnswer }
+                correct={ question.correct_answer }
+              />
+            )
+        }
       </div>
     );
   }
