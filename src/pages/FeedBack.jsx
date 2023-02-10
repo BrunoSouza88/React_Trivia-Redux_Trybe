@@ -25,6 +25,7 @@ class FeedBack extends React.Component {
       assertions,
       score,
     } } = this.props;
+    const { feebackMsg } = this.state;
     return (
       <div>
         <h2
@@ -37,6 +38,11 @@ class FeedBack extends React.Component {
         >
           {assertions}
         </h2>
+        <p
+          data-testid="feedback-text"
+        >
+          {feebackMsg}
+        </p>
       </div>
     );
   }
