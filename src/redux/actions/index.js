@@ -1,3 +1,5 @@
+import { ADD_EMAIL, ADD_NAME } from './actionTypes';
+
 // ACTIONS TYPES
 export const START_GAME = 'START_GAME';
 
@@ -28,3 +30,7 @@ export const fetchToken = () => async (dispatch) => {
     dispatch(requestError(error));
   }
 };
+
+export const addName = (payload) => ({ type: ADD_NAME, payload });
+
+export const addEmail = (payload) => ({ type: ADD_EMAIL, payload });
