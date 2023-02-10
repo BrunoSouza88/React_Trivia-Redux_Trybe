@@ -2,7 +2,6 @@ import { combineReducers } from 'redux';
 import { START_GAME } from '../actions/actionTypes';
 import player from './player';
 
-
 const INITIAL_STATE = {
   token: '',
 };
