@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { START_GAME } from '../actions';
+import { START_GAME } from '../actions/actionTypes';
 import user from './user';
 
 const INITIAL_STATE = {
