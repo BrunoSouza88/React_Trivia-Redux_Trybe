@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 export default class MultipleChoice extends Component {
   render() {
     const { answer, correct } = this.props;
-    console.log(answer);
     return (
       <div data-testid="answer-options">
         {

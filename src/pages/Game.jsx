@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import MultipleChoice from '../components/MultipleChoice';
-import TrueOrFalse from '../components/TrueOrFalse';
 
 class Game extends React.Component {
   constructor() {
@@ -33,7 +32,7 @@ class Game extends React.Component {
   }
 
   componentDidUpdate(props, state) {
-    const end = -1;
+    const end = 0;
     if (state.time === end) {
       this.clearTime();
       this.generateQuestion();
@@ -59,8 +58,16 @@ class Game extends React.Component {
       const { history } = this.props;
       history.push('/');
     } else {
+      const questionNull = {
+        category: '',
+        type: '',
+        difficulty: '',
+        question: '',
+        correct_answer: '',
+        incorrect_answers: [],
+      };
       this.setState({
-        results: responseJSON.results,
+        results: [questionNull, ...responseJSON.results],
       });
     }
   }
@@ -96,10 +103,12 @@ class Game extends React.Component {
   }
 
   randomAnswer(answer) {
+    console.log(answer);
     for (let index = 0; index < answer.length; index += 1) {
       const position = Math.floor(Math.random() * (index + 1));
       [answer[index], answer[position]] = [answer[position], answer[index]];
     }
+    console.log(answer);
     return answer;
   }
 
@@ -119,24 +128,17 @@ class Game extends React.Component {
           { question.question }
         </p>
         {
-          sortAnswer && time > 0
-            ? <p>{time}</p>
-            : null
-        }
-        {
-          sortAnswer && time > 0
+          sortAnswer
             ? (
-              <MultipleChoice
-                answer={ sortAnswer }
-                correct={ question.correct_answer }
-              />
+              <>
+                <p>{time}</p>
+                <MultipleChoice
+                  answer={ sortAnswer }
+                  correct={ question.correct_answer }
+                />
+              </>
             )
-            : (
-              <TrueOrFalse
-                answer={ sortAnswer }
-                correct={ question.correct_answer }
-              />
-            )
+            : null
         }
       </div>
     );
