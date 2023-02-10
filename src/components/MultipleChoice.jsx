@@ -22,12 +22,13 @@ export default class MultipleChoice extends Component {
   };
 
   render() {
-    const { answer, correct } = this.props;
+    const { answer, correct, isDisabled } = this.props;
     return (
       <div data-testid="answer-options">
         {
           answer.map((question, index) => (
             <button
+              disabled={ isDisabled }
               type="button"
               key={ index }
               data-testid={
@@ -50,4 +51,5 @@ export default class MultipleChoice extends Component {
 MultipleChoice.propTypes = {
   answer: PropTypes.arrayOf(PropTypes.string).isRequired,
   correct: PropTypes.string.isRequired,
+  isDisabled: PropTypes.bool.isRequired,
 };

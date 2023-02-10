@@ -8,45 +8,36 @@ class Game extends React.Component {
     super();
     this.state = {
       results: [],
-      // question: {
-      //   category: '',
-      //   type: '',
-      //   difficulty: '',
-      //   question: '',
-      //   correct_answer: '',
-      //   incorrect_answers: [],
-      // },
+      question: {
+        category: '',
+        type: '',
+        difficulty: '',
+        question: '',
+        correct_answer: '',
+        incorrect_answers: [],
+      },
       sortAnswer: [],
-      questionPosition: 1,
-      time: 30,
+      questionPosition: 0,
+      time: 10,
+      isDisable: false,
     };
 
     this.getQuestion = this.getQuestion.bind(this);
-    this.clearTime = this.clearTime.bind(this);
+    this.StartTime = this.StartTime.bind(this);
     this.stopWatch = this.stopWatch.bind(this);
     this.generateQuestion = this.generateQuestion.bind(this);
+    this.next = this.next.bind(this);
+    this.clear = this.clear.bind(this);
   }
 
-  async componentDidMount() {
-    await this.getQuestion();
+  componentDidMount() {
+    this.getQuestion();
     this.stopWatch();
-    this.generateQuestion();
   }
 
   componentDidUpdate(props, state) {
-    const end = 0;
-    if (state.time === end) {
-      this.clearTime();
-      // this.generateQuestion();
-    }
-  }
-
-  componentWillUnmount() {
-    const { questionPosition } = this.state;
-    const maxNumber = 5;
-    if (questionPosition > maxNumber) {
-      clearInterval(this.killSpotWatch);
-    }
+    this.next(state);
+    this.clear(state);
   }
 
   async getQuestion() {
@@ -60,8 +51,16 @@ class Game extends React.Component {
       const { history } = this.props;
       history.push('/');
     } else {
+      const objectNull = {
+        category: '',
+        type: '',
+        difficulty: '',
+        question: '',
+        correct_answer: '',
+        incorrect_answers: [],
+      };
       this.setState({
-        results: responseJSON.results,
+        results: [objectNull, ...responseJSON.results],
       });
     }
   }
@@ -69,6 +68,7 @@ class Game extends React.Component {
   nextQuestion = () => {
     const position = 5;
     const { questionPosition } = this.state;
+    this.StartTime();
     if (questionPosition < position) {
       this.generateQuestion();
     } else {
@@ -76,6 +76,22 @@ class Game extends React.Component {
       history.push('/feedback');
     }
   };
+
+  next(state) {
+    if (state.questionPosition < 1) {
+      this.nextQuestion();
+    }
+  }
+
+  clear(state) {
+    const end = 1;
+    if (state.time === end) {
+      clearInterval(this.killSpotWatch);
+      this.setState({
+        isDisable: true,
+      });
+    }
+  }
 
   stopWatch() {
     const ONE_SECUND = 1000;
@@ -88,9 +104,10 @@ class Game extends React.Component {
     }, ONE_SECUND);
   }
 
-  clearTime() {
+  StartTime() {
     this.setState({
-      time: 30,
+      time: 10,
+      isDisable: false,
     });
   }
 
@@ -104,6 +121,7 @@ class Game extends React.Component {
       question,
       questionPosition: nextPosition,
       sortAnswer,
+      isDisable: false,
     });
   }
 
@@ -120,6 +138,7 @@ class Game extends React.Component {
       question,
       time,
       sortAnswer,
+      isDisable,
     } = this.state;
 
     return (
@@ -139,6 +158,7 @@ class Game extends React.Component {
                 <MultipleChoice
                   answer={ sortAnswer }
                   correct={ question.correct_answer }
+                  isDisabled={ isDisable }
                 />
               </>
             )
