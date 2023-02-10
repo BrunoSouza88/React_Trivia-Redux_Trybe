@@ -7,6 +7,7 @@ import Login from './pages/Login';
 import Settings from './pages/Settings';
 import Game from './pages/Game';
 import Header from './components/Header';
+import FeedBack from './pages/FeedBack';
 
 class App extends Component {
   render() {
@@ -19,7 +20,8 @@ class App extends Component {
           <Switch>
             <Route exact path="/" component={ Login } />
             <Route path="/game" component={ Game } />
-            <Route exact path="/settings" component={ Settings } />
+            <Route path="/settings" component={ Settings } />
+            <Route path="/feedback" component={ FeedBack } />
           </Switch>
         </header>
       </div>
