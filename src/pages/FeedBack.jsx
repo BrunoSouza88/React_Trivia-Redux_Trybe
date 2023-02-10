@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 // INICIAL_STATE = {
 //   feebackMsg: '',
@@ -51,6 +52,9 @@ class FeedBack extends React.Component {
         >
           {feebackMsg}
         </p>
+        <Link to="/">
+          <button data-testid="btn-play-again">Play Again</button>
+        </Link>
       </div>
     );
   }
