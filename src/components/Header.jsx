@@ -5,14 +5,14 @@ import { connect } from 'react-redux';
 
 class Header extends Component {
   render() {
-    const { user: { name, email } } = this.props;
+    const { player: { name, gravatarEmail } } = this.props;
     return (
       <div>
         {name.length > 0 ? (
           <>
             <img
               data-testid="header-profile-picture"
-              src={ `https://www.gravatar.com/avatar/${md5(email).toString()}` }
+              src={ `https://www.gravatar.com/avatar/${md5(gravatarEmail).toString()}` }
               alt="Imagem gravatar"
             />
             <h2 data-testid="header-player-name">{ name }</h2>
@@ -25,7 +25,7 @@ class Header extends Component {
 }
 
 const mapStateToProps = (globalState) => ({
-  user: globalState.user,
+  player: globalState.player,
 });
 
 export default connect(mapStateToProps)(Header);
