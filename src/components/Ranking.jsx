@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 class Ranking extends React.Component {
   render() {
@@ -24,6 +25,9 @@ class Ranking extends React.Component {
         <img src="ImagemVindaDoGravatar" alt="imagem do avatar do jogador" />
         <p data-testid={ `player-name-${player.name}` } />
         <p data-testid={ `player-score-${player.score}` } />
+        <Link to="/">
+          <button data-testid="btn-go-home">Voltar ao inicio</button>
+        </Link>
       </div>
     );
   }

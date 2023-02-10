@@ -7,6 +7,7 @@ import Settings from './pages/Settings';
 import Game from './pages/Game';
 import Header from './components/Header';
 import FeedBack from './pages/FeedBack';
+import Ranking from './components/Ranking';
 
 class App extends Component {
   render() {
@@ -21,6 +22,7 @@ class App extends Component {
             <Route path="/game" component={ Game } />
             <Route path="/settings" component={ Settings } />
             <Route path="/feedback" component={ FeedBack } />
+            <Route path="/ranking" component={ Ranking } />
           </Switch>
         </header>
       </div>
