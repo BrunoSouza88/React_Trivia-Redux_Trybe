@@ -2,22 +2,30 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-INICIAL_STATE = {
-  feebackMsg: '',
-};
+// INICIAL_STATE = {
+//   feebackMsg: '',
+// };
 class FeedBack extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      feebackMsg: '',
+    };
+    this.generateScoreFeeback = this.generateScoreFeeback.bind(this);
+  }
+
   componentDidMount() {
     this.generateScoreFeeback();
   }
 
   generateScoreFeeback = () => {
-    // const { score } = this.props;
-    const score = 4;
+    const { player: { score } } = this.props;
     const scoreLine = 3;
     if (score < scoreLine) {
       this.setState({ feebackMsg: 'Could be better...' });
+    } else {
+      this.setState({ feebackMsg: 'Well Done!' });
     }
-    this.setState({ feebackMsg: 'Well Done!' });
   };
 
   render() {
