@@ -31,6 +31,6 @@ export const fetchToken = () => async (dispatch) => {
   }
 };
 
-export const addName = (name) => ({ type: ADD_NAME, payload: name });
+export const addName = (payload) => ({ type: ADD_NAME, payload });
 
-export const addEmail = (email) => ({ type: ADD_EMAIL, payload: email });
+export const addEmail = (payload) => ({ type: ADD_EMAIL, payload });

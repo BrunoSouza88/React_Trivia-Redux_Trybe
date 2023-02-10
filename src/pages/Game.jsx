@@ -103,12 +103,10 @@ class Game extends React.Component {
   }
 
   randomAnswer(answer) {
-    console.log(answer);
     for (let index = 0; index < answer.length; index += 1) {
       const position = Math.floor(Math.random() * (index + 1));
       [answer[index], answer[position]] = [answer[position], answer[index]];
     }
-    console.log(answer);
     return answer;
   }
 

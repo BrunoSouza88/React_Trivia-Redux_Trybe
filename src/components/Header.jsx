@@ -5,16 +5,20 @@ import { connect } from 'react-redux';
 
 class Header extends Component {
   render() {
-    const { name, email } = this.props;
+    const { user: { name, email } } = this.props;
     return (
       <div>
-        <img
-          data-testid="header-profile-picture"
-          src={ `https://www.gravatar.com/avatar/${md5(email).toString()}` }
-          alt="Imagem gravatar"
-        />
-        <h2 data-testid="header-player-name">{ name }</h2>
-        <p data-testid="header-score">0</p>
+        {name.length > 0 ? (
+          <>
+            <img
+              data-testid="header-profile-picture"
+              src={ `https://www.gravatar.com/avatar/${md5(email).toString()}` }
+              alt="Imagem gravatar"
+            />
+            <h2 data-testid="header-player-name">{ name }</h2>
+            <p data-testid="header-score">0</p>
+          </>
+        ) : null }
       </div>
     );
   }
