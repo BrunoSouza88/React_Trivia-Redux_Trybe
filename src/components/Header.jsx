@@ -8,17 +8,13 @@ class Header extends Component {
     const { player: { name, gravatarEmail } } = this.props;
     return (
       <div>
-        {name.length > 0 ? (
-          <>
-            <img
-              data-testid="header-profile-picture"
-              src={ `https://www.gravatar.com/avatar/${md5(gravatarEmail).toString()}` }
-              alt="Imagem gravatar"
-            />
-            <h2 data-testid="header-player-name">{ name }</h2>
-            <p data-testid="header-score">0</p>
-          </>
-        ) : null }
+        <img
+          data-testid="header-profile-picture"
+          src={ `https://www.gravatar.com/avatar/${md5(gravatarEmail).toString()}` }
+          alt="Imagem gravatar"
+        />
+        <h2 data-testid="header-player-name">{ name }</h2>
+        <p data-testid="header-score">0</p>
       </div>
     );
   }

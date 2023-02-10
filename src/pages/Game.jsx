@@ -1,23 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import MultipleChoice from '../components/MultipleChoice';
+import Header from '../components/Header';
 
 class Game extends React.Component {
   constructor() {
     super();
     this.state = {
       results: [],
-      question: {
-        category: '',
-        type: '',
-        difficulty: '',
-        question: '',
-        correct_answer: '',
-        incorrect_answers: [],
-      },
+      // question: {
+      //   category: '',
+      //   type: '',
+      //   difficulty: '',
+      //   question: '',
+      //   correct_answer: '',
+      //   incorrect_answers: [],
+      // },
       sortAnswer: [],
-      questionPosition: 0,
-      time: 0,
+      questionPosition: 1,
+      time: 30,
     };
 
     this.getQuestion = this.getQuestion.bind(this);
@@ -26,16 +27,17 @@ class Game extends React.Component {
     this.generateQuestion = this.generateQuestion.bind(this);
   }
 
-  componentDidMount() {
-    this.getQuestion();
+  async componentDidMount() {
+    await this.getQuestion();
     this.stopWatch();
+    this.generateQuestion();
   }
 
   componentDidUpdate(props, state) {
     const end = 0;
     if (state.time === end) {
       this.clearTime();
-      this.generateQuestion();
+      // this.generateQuestion();
     }
   }
 
@@ -58,25 +60,22 @@ class Game extends React.Component {
       const { history } = this.props;
       history.push('/');
     } else {
-      const questionNull = {
-        category: '',
-        type: '',
-        difficulty: '',
-        question: '',
-        correct_answer: '',
-        incorrect_answers: [],
-      };
       this.setState({
-        results: [questionNull, ...responseJSON.results],
+        results: responseJSON.results,
       });
     }
   }
 
-  clearTime() {
-    this.setState({
-      time: 30,
-    });
-  }
+  nextQuestion = () => {
+    const position = 5;
+    const { questionPosition } = this.state;
+    if (questionPosition < position) {
+      this.generateQuestion();
+    } else {
+      const { history } = this.props;
+      history.push('/feedback');
+    }
+  };
 
   stopWatch() {
     const ONE_SECUND = 1000;
@@ -87,6 +86,12 @@ class Game extends React.Component {
         time: secund,
       });
     }, ONE_SECUND);
+  }
+
+  clearTime() {
+    this.setState({
+      time: 30,
+    });
   }
 
   generateQuestion() {
@@ -119,6 +124,7 @@ class Game extends React.Component {
 
     return (
       <div>
+        <Header />
         <p data-testid="question-category">
           { question.category }
         </p>
@@ -138,6 +144,12 @@ class Game extends React.Component {
             )
             : null
         }
+        <button
+          type="button"
+          onClick={ this.nextQuestion }
+        >
+          Next
+        </button>
       </div>
     );
   }

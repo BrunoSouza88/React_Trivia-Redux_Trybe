@@ -5,7 +5,6 @@ import './App.css';
 import Login from './pages/Login';
 import Settings from './pages/Settings';
 import Game from './pages/Game';
-import Header from './components/Header';
 import FeedBack from './pages/FeedBack';
 import Ranking from './components/Ranking';
 
@@ -14,7 +13,6 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <Header />
           <img src={ logo } className="App-logo" alt="logo" />
           <p>SUA VEZ</p>
           <Switch>

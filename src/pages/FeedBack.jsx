@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import Header from '../components/Header';
 
 // INICIAL_STATE = {
 //   feebackMsg: '',
@@ -37,6 +38,7 @@ class FeedBack extends React.Component {
     const { feebackMsg } = this.state;
     return (
       <div>
+        <Header />
         <h2
           data-testid="feedback-total-score"
         >
