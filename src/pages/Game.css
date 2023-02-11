@@ -1,0 +1,7 @@
+.visibleBtn {
+  display: block;
+}
+
+.invisibleBtn {
+  display: none;
+}
