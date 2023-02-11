@@ -1,36 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import MultipleChoice from '../components/MultipleChoice';
 import Header from '../components/Header';
+import { addScore } from '../redux/actions';
 
 class Game extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      results: [],
-      question: {
-        category: '',
-        type: '',
-        difficulty: '',
-        question: '',
-        correct_answer: '',
-        incorrect_answers: [],
-      },
-      sortAnswer: [],
-      questionPosition: 0,
-      time: 10,
-      isDisable: false,
-      answerClass: false,
-    };
-
-    this.verifyAnswer = this.verifyAnswer.bind(this);
-    this.getQuestion = this.getQuestion.bind(this);
-    this.StartTime = this.StartTime.bind(this);
-    this.stopWatch = this.stopWatch.bind(this);
-    this.generateQuestion = this.generateQuestion.bind(this);
-    this.next = this.next.bind(this);
-    this.clear = this.clear.bind(this);
-  }
+  state = {
+    results: [],
+    question: {
+      category: '',
+      type: '',
+      difficulty: '',
+      question: '',
+      correct_answer: '',
+      incorrect_answers: [],
+    },
+    sortAnswer: [],
+    questionPosition: 0,
+    time: 10,
+    isDisable: false,
+    answerClass: false,
+  };
 
   componentDidMount() {
     this.getQuestion();
@@ -41,7 +32,7 @@ class Game extends React.Component {
     this.clear(state);
   }
 
-  async getQuestion() {
+  getQuestion = async () => {
     const API = 'https://opentdb.com/api.php?amount=5&token=';
     const getToken = localStorage.getItem('token');
     const responseAPI = await fetch(API + getToken);
@@ -64,11 +55,30 @@ class Game extends React.Component {
         results: [objectNull, ...responseJSON.results],
       });
     }
-  }
+  };
 
-  verifyAnswer = () => {
-    this.setState({ answerClass: true, time: 0 });
+  verifyAnswer = ({ target }) => {
+    const { time, question } = this.state;
+    const questionSelect = target.innerHTML;
     clearInterval(this.killSpotWatch);
+    this.setState({ answerClass: true, time: 0 });
+    this.setScore(questionSelect, time, question);
+  };
+
+  setScore = (questionSelect, time, question) => {
+    const { player, dispatch } = this.props;
+    const { difficulty } = question;
+    const scoreBase = 10;
+    let { score } = player;
+    const scoreDifficulty = {
+      easy: 1,
+      medium: 2,
+      hard: 3,
+    };
+    if (questionSelect === question.correct_answer) {
+      score += (scoreBase + (time * scoreDifficulty[difficulty]));
+      dispatch(addScore(score));
+    }
   };
 
   nextQuestion = () => {
@@ -87,13 +97,13 @@ class Game extends React.Component {
     }
   };
 
-  next(state) {
+  next = (state) => {
     if (state.questionPosition < 1) {
       this.nextQuestion();
     }
-  }
+  };
 
-  clear(state) {
+  clear = (state) => {
     const end = 1;
     if (state.time === end) {
       clearInterval(this.killSpotWatch);
@@ -101,9 +111,9 @@ class Game extends React.Component {
         isDisable: true,
       });
     }
-  }
+  };
 
-  stopWatch() {
+  stopWatch = () => {
     const ONE_SECUND = 1000;
     this.killSpotWatch = setInterval(() => {
       const { time } = this.state;
@@ -116,16 +126,16 @@ class Game extends React.Component {
         clearInterval(this.killSpotWatch);
       }
     }, ONE_SECUND);
-  }
+  };
 
-  StartTime() {
+  StartTime = () => {
     this.setState({
       time: 10,
       isDisable: false,
     });
-  }
+  };
 
-  generateQuestion() {
+  generateQuestion = () => {
     const { results, questionPosition } = this.state;
     const question = results[questionPosition];
     const nextPosition = questionPosition + 1;
@@ -137,15 +147,15 @@ class Game extends React.Component {
       sortAnswer,
       isDisable: false,
     });
-  }
+  };
 
-  randomAnswer(answer) {
+  randomAnswer = (answer) => {
     for (let index = 0; index < answer.length; index += 1) {
       const position = Math.floor(Math.random() * (index + 1));
       [answer[index], answer[position]] = [answer[position], answer[index]];
     }
     return answer;
-  }
+  };
 
   render() {
     const {
@@ -196,6 +206,14 @@ Game.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
+  player: PropTypes.shape({
+    score: PropTypes.number,
+  }).isRequired,
+  dispatch: PropTypes.func.isRequired,
 };
 
-export default Game;
+const mapStateToProps = (globalSate) => ({
+  player: globalSate.player,
+});
+
+export default connect(mapStateToProps)(Game);
