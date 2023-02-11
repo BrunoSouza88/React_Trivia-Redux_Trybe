@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import MultipleChoice from '../components/MultipleChoice';
 import Header from '../components/Header';
-import { addScore } from '../redux/actions';
+import { addAssertions, addScore } from '../redux/actions';
 
 import './Game.css';
 
@@ -71,7 +71,7 @@ class Game extends React.Component {
     const { player, dispatch } = this.props;
     const { difficulty } = question;
     const scoreBase = 10;
-    let { score } = player;
+    let { score, assertions } = player;
     const scoreDifficulty = {
       easy: 1,
       medium: 2,
@@ -80,6 +80,7 @@ class Game extends React.Component {
     if (questionSelect === question.correct_answer) {
       score += (scoreBase + (time * scoreDifficulty[difficulty]));
       dispatch(addScore(score));
+      dispatch(addAssertions(assertions += 1));
     }
   };
 
@@ -87,7 +88,7 @@ class Game extends React.Component {
     this.setState({
       answerClass: false,
     });
-    const position = 5;
+    const position = 6;
     const { questionPosition } = this.state;
     this.StartTime();
     this.stopWatch();
@@ -214,6 +215,7 @@ Game.propTypes = {
   }).isRequired,
   player: PropTypes.shape({
     score: PropTypes.number,
+    assertions: PropTypes.number,
   }).isRequired,
   dispatch: PropTypes.func.isRequired,
 };
