@@ -5,6 +5,8 @@ import MultipleChoice from '../components/MultipleChoice';
 import Header from '../components/Header';
 import { addScore } from '../redux/actions';
 
+import './Game.css';
+
 class Game extends React.Component {
   state = {
     results: [],
@@ -191,12 +193,16 @@ class Game extends React.Component {
             )
             : null
         }
-        <button
-          type="button"
-          onClick={ this.nextQuestion }
-        >
-          Next
-        </button>
+        {
+          answerClass ? (
+            <button
+              type="button"
+              onClick={ this.nextQuestion }
+              data-testid="btn-next"
+            >
+              Next
+            </button>) : null
+        }
       </div>
     );
   }
