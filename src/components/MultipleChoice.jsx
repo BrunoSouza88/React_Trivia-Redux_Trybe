@@ -3,16 +3,8 @@ import PropTypes from 'prop-types';
 import './MultipleChoice.css';
 
 export default class MultipleChoice extends Component {
-  state = {
-    answerClass: false,
-  };
-
-  verifyAnswer = () => {
-    this.setState({ answerClass: true });
-  };
-
   setClass = (question, correct) => {
-    const { answerClass } = this.state;
+    const { answerClass } = this.props;
     if (answerClass) {
       if (question === correct) {
         return 'correctAnswer';
@@ -22,7 +14,7 @@ export default class MultipleChoice extends Component {
   };
 
   render() {
-    const { answer, correct, isDisabled } = this.props;
+    const { answer, correct, isDisabled, verifyAnswer } = this.props;
     return (
       <div data-testid="answer-options">
         {
@@ -36,7 +28,7 @@ export default class MultipleChoice extends Component {
                   ? 'correct-answer'
                   : `wrong-answer-${index}`
               }
-              onClick={ this.verifyAnswer }
+              onClick={ verifyAnswer }
               className={ this.setClass(question, correct) }
             >
               {question}
@@ -52,4 +44,6 @@ MultipleChoice.propTypes = {
   answer: PropTypes.arrayOf(PropTypes.string).isRequired,
   correct: PropTypes.string.isRequired,
   isDisabled: PropTypes.bool.isRequired,
+  verifyAnswer: PropTypes.func.isRequired,
+  answerClass: PropTypes.bool.isRequired,
 };

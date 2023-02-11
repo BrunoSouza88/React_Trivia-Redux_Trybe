@@ -20,8 +20,10 @@ class Game extends React.Component {
       questionPosition: 0,
       time: 10,
       isDisable: false,
+      answerClass: false,
     };
 
+    this.verifyAnswer = this.verifyAnswer.bind(this);
     this.getQuestion = this.getQuestion.bind(this);
     this.StartTime = this.StartTime.bind(this);
     this.stopWatch = this.stopWatch.bind(this);
@@ -32,7 +34,6 @@ class Game extends React.Component {
 
   componentDidMount() {
     this.getQuestion();
-    this.stopWatch();
   }
 
   componentDidUpdate(props, state) {
@@ -65,10 +66,19 @@ class Game extends React.Component {
     }
   }
 
+  verifyAnswer = () => {
+    this.setState({ answerClass: true, time: 0 });
+    clearInterval(this.killSpotWatch);
+  };
+
   nextQuestion = () => {
+    this.setState({
+      answerClass: false,
+    });
     const position = 5;
     const { questionPosition } = this.state;
     this.StartTime();
+    this.stopWatch();
     if (questionPosition < position) {
       this.generateQuestion();
     } else {
@@ -97,10 +107,14 @@ class Game extends React.Component {
     const ONE_SECUND = 1000;
     this.killSpotWatch = setInterval(() => {
       const { time } = this.state;
-      const secund = time - 1;
-      this.setState({
-        time: secund,
-      });
+      if (time > 0) {
+        const secund = time - 1;
+        this.setState({
+          time: secund,
+        });
+      } else {
+        clearInterval(this.killSpotWatch);
+      }
     }, ONE_SECUND);
   }
 
@@ -139,6 +153,7 @@ class Game extends React.Component {
       time,
       sortAnswer,
       isDisable,
+      answerClass,
     } = this.state;
 
     return (
@@ -156,9 +171,11 @@ class Game extends React.Component {
               <>
                 <p>{time}</p>
                 <MultipleChoice
+                  verifyAnswer={ this.verifyAnswer }
                   answer={ sortAnswer }
                   correct={ question.correct_answer }
                   isDisabled={ isDisable }
+                  answerClass={ answerClass }
                 />
               </>
             )
