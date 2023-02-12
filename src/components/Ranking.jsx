@@ -21,7 +21,7 @@ class Ranking extends React.Component {
 
     return (
       <div>
-        <h1>Component Ranking</h1>
+        <h1 data-testid="ranking-title">Tela de Ranking</h1>
         <img src="ImagemVindaDoGravatar" alt="imagem do avatar do jogador" />
         <p data-testid={ `player-name-${player.name}` } />
         <p data-testid={ `player-score-${player.score}` } />
