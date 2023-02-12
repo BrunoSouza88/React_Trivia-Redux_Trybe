@@ -57,6 +57,9 @@ class FeedBack extends React.Component {
         <Link to="/">
           <button data-testid="btn-play-again">Play Again</button>
         </Link>
+        <Link to="/ranking">
+          <button data-testid="btn-ranking">Ranking</button>
+        </Link>
       </div>
     );
   }
