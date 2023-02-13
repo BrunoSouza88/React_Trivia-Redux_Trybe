@@ -14,11 +14,10 @@ class Header extends Component {
           alt="Imagem gravatar"
         />
         <h2 data-testid="header-player-name">
-          Player:
           { name }
         </h2>
         <p data-testid="header-score">
-          {`${score} points`}
+          { score }
         </p>
       </div>
     );

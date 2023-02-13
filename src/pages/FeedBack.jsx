@@ -64,15 +64,11 @@ class FeedBack extends React.Component {
         <h2
           data-testid="feedback-total-score"
         >
-          Player score:
-          {' '}
           {score}
         </h2>
         <h2
           data-testid="feedback-total-question"
         >
-          Assertations:
-          {' '}
           {assertions}
         </h2>
         <p
