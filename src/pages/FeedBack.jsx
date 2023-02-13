@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
+// import savingRankingLocalStorage from '../components/Ranking';
 
 // INICIAL_STATE = {
 //   feebackMsg: '',
@@ -18,7 +19,25 @@ class FeedBack extends React.Component {
 
   componentDidMount() {
     this.generateScoreFeeback();
+    this.savingRankingLocalStorage();
   }
+
+  getPlayers = () => {
+    const allPlayers = localStorage.getItem('Ranking');
+    return allPlayers ? JSON.parse(allPlayers) : [];
+  };
+
+  savingRankingLocalStorage = () => {
+    const { player } = this.props;
+
+    const playerObj = {
+      name: player.name,
+      score: player.score,
+      picture: player.gravatarEmail,
+    };
+    const allPlayersRanking = this.getPlayers();
+    localStorage.setItem('Ranking', JSON.stringify([...allPlayersRanking, playerObj]));
+  };
 
   generateScoreFeeback = () => {
     const { player: {
@@ -76,6 +95,8 @@ FeedBack.propTypes = {
   player: PropTypes.shape({
     assertions: PropTypes.number,
     score: PropTypes.number,
+    name: PropTypes.string,
+    gravatarEmail: PropTypes.string,
   }).isRequired,
 };
 
