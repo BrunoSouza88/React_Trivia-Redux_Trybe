@@ -27,20 +27,18 @@ class Ranking extends React.Component {
 
   render() {
     // const { player } = this.props;
-    const allPlayers = localStorage.getItem('Ranking');
-    console.log(allPlayers);
+    const allPlayers = JSON.parse(localStorage.getItem('Ranking'));
+    // console.log(allPlayers);
     return (
       <>
         <div>
           <h1 data-testid="ranking-title">Tela de Ranking</h1>
-          {/* sort((a, b) => a.score - b.score) */}
           {
-            allPlayers.length > 0
-            && allPlayers.map((player, index) => ( // allplayers nao esta sendo reconhecido como array
+            allPlayers.sort((a, b) => b.score - a.score).map((player, index) => ( // allplayers nao esta sendo reconhecido como array
               <div key={ index }>
                 <img src={ player.picture } alt="imagem do avatar do jogador" />
-                <p data-testid={ `player-name-${player.name}` } />
-                <p data-testid={ `player-score-${player.score}` } />
+                <p data-testid={ `player-name-${player.name}` }>{ player.name }</p>
+                <p data-testid={ `player-score-${player.score}` }>{ player.score }</p>
               </div>
             ))
           }
