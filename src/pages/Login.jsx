@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { addEmail, addName, fetchToken } from '../redux/actions';
+import { addEmail, addName, addScore, fetchToken } from '../redux/actions';
 
 class Login extends React.Component {
   state = {
@@ -10,6 +10,11 @@ class Login extends React.Component {
     name: '',
     validName: false,
   };
+
+  componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch(addScore(0));
+  }
 
   verifyEmail = ({ target: { value } }) => {
     const validaEmail = (/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g).test(value);

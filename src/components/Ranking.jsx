@@ -36,7 +36,7 @@ class Ranking extends React.Component {
             allPlayers.sort((a, b) => b.score - a.score).map((player, index) => ( // allplayers nao esta sendo reconhecido como array
               <div key={ index }>
                 <img src={ `https://www.gravatar.com/avatar/${md5(player.piture).toString()}` } alt="imagem do avatar do jogador" />
-                <p data-testid={ `player-name-${player.name}` }>{ player.name }</p>
+                <p data-testid={ `player-name-${index}` }>{ player.name }</p>
                 <p data-testid={ `player-score-${index}` }>{ player.score }</p>
               </div>
             ))

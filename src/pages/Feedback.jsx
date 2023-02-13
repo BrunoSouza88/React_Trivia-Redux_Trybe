@@ -8,7 +8,7 @@ import Header from '../components/Header';
 // INICIAL_STATE = {
 //   feebackMsg: '',
 // };
-class FeedBack extends React.Component {
+class Feedback extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -77,7 +77,11 @@ class FeedBack extends React.Component {
           {feebackMsg}
         </p>
         <Link to="/">
-          <button data-testid="btn-play-again">Play Again</button>
+          <button
+            data-testid="btn-play-again"
+          >
+            Play Again
+          </button>
         </Link>
         <Link to="/ranking">
           <button data-testid="btn-ranking">Ranking</button>
@@ -87,12 +91,15 @@ class FeedBack extends React.Component {
   }
 }
 
-FeedBack.propTypes = {
+Feedback.propTypes = {
   player: PropTypes.shape({
     assertions: PropTypes.number,
     score: PropTypes.number,
     name: PropTypes.string,
     gravatarEmail: PropTypes.string,
+  }).isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func,
   }).isRequired,
 };
 
@@ -100,4 +107,4 @@ const mapStateToProps = (globalState) => ({
   player: globalState.player,
 });
 
-export default connect(mapStateToProps)(FeedBack);
+export default connect(mapStateToProps)(Feedback);
