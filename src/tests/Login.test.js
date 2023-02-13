@@ -4,6 +4,9 @@ import App from '../App';
 import Login from '../pages/Login';
 import { renderWithRouterAndRedux } from './helpers/renderWithRouterAndRedux';
 
+const testName = 'input-player-name';
+const testEmail = 'input-gravatar-email';
+
 describe('Cobertura de testes da tela de Login', () => {
   test('Verificando se os campos aparecem na tela', () => {
     renderWithRouterAndRedux(<Login />);
@@ -31,7 +34,6 @@ describe('Cobertura de testes da tela de Login', () => {
     const playInput = screen.getByRole('button', {
       name: /play/i,
     });
-
     expect(playInput).toBeDisabled();
 
     userEvent.type(emailInput, emailToTest);
@@ -66,4 +68,57 @@ describe('Cobertura de testes da tela de Login', () => {
 
     expect(playInput).toBeDisabled();
   });
+  
+  test('Verificando se o botão de "play" está desabilitado quando o formulário não estiver preenchido', () => {
+    renderWithRouterAndRedux(<App />);
+
+    expect(screen.getByTestId('btn-play')).toBeDisabled();
+  });
+
+  test('Verificando se quando inserimos somente valor no campo de nome, o botão fica desabilitado', () => {
+    renderWithRouterAndRedux(<Login />);
+
+    const nameInput = screen.getByTestId('input-player-name');
+    const playBtn = screen.getByTestId('btn-play');
+    userEvent.type(nameInput, 'Joennet Doe');
+    expect(playBtn).toBeDisabled();
+  });
+
+  test('Verficando se quando inserimos somente valor no campo de e-mail, o botão fica desabilitado', () => {
+    renderWithRouterAndRedux(<Login />);
+
+    const emailInput = screen.getByTestId('input-gravatar-email');
+    const playBtn = screen.getByTestId('btn-play');
+    userEvent.type(emailInput, 'teste@teste.com');
+    expect(playBtn).toBeDisabled();
+  });
+
+  test('Verificando se ao clicar no botão "Play", ', () => {
+    const { history } =  renderWithRouterAndRedux(<App />);
+ 
+     const settingButton = screen.getByTestId("btn-settings");
+ 
+     userEvent.click(settingButton);
+ 
+     const { pathname } = history.location;
+     expect(pathname).toBe('/settings');
+   });
+
+  test('Verificando se usuario é encaminhado para a pagina GAME após clicar no botão play', () => {
+    const { history } = renderWithRouterAndRedux(<App />);
+
+    const nameInput = screen.getByTestId('input-player-name');
+    const emailInput = screen.getByTestId('input-gravatar-email');
+    const playBtn = screen.getByTestId('btn-play');
+
+    userEvent.type(nameInput, 'Joennet Doe');
+    userEvent.type(emailInput, 'teste@teste.com');
+    userEvent.click(playBtn);
+    const { pathname } = history.location;
+    expect(pathname).toBe('/game');
+  });
+
+  
+
+
 });
