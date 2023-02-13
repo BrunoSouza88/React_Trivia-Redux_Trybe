@@ -21,9 +21,12 @@ class FeedBack extends React.Component {
   }
 
   generateScoreFeeback = () => {
-    const { player: { score } } = this.props;
+    const { player: {
+      assertions, // aqui estava score, mas precisava ser numero de acertos, não pontuação
+    } } = this.props;
+
     const scoreLine = 3;
-    if (score < scoreLine) {
+    if (assertions < scoreLine) {
       this.setState({ feebackMsg: 'Could be better...' });
     } else {
       this.setState({ feebackMsg: 'Well Done!' });

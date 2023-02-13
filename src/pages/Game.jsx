@@ -195,7 +195,7 @@ class Game extends React.Component {
             : null
         }
         {
-          answerClass ? (
+          answerClass || time === 0 ? (
             <button
               type="button"
               onClick={ this.nextQuestion }
