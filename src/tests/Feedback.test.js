@@ -1,7 +1,6 @@
-import { screen, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { screen } from '@testing-library/react';
+import FeedBack from '../pages/Feedback';
 import { renderWithRouterAndRedux } from './helpers/renderWithRouterAndRedux';
-import FeedBack from '../pages/FeedBack';
 
 describe('', () => {
   const playerMock = {
