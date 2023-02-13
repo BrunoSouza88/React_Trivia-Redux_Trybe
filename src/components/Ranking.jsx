@@ -7,17 +7,17 @@ class Ranking extends React.Component {
   render() {
     const { player } = this.props;
 
-    savingRankingLocalStorage = () => {
-      localStorage.setItem('Ranking', JSON.stringify({
-        name: player.name,
-        score: player.score,
-        picture: urlDaFotoGravatar,
-      }));
+    // savingRankingLocalStorage = () => {
+    //   localStorage.setItem('Ranking', JSON.stringify({
+    //     name: player.name,
+    //     score: player.score,
+    //     picture: urlDaFotoGravatar,
+    //   }));
 
-      // savingTokenLocalStorage = () => {
-      //   localStorage.setItem('token', tokenRecebidoPelaAPI);
-      // };
-    };
+    //   // savingTokenLocalStorage = () => {
+    //   //   localStorage.setItem('token', tokenRecebidoPelaAPI);
+    //   // };
+    // };
 
     return (
       <div>
