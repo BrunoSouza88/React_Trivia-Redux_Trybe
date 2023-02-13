@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import md5 from 'crypto-js/md5';
 
 class Ranking extends React.Component {
   // componentDidMount() {
@@ -26,9 +27,7 @@ class Ranking extends React.Component {
   // };
 
   render() {
-    // const { player } = this.props;
     const allPlayers = JSON.parse(localStorage.getItem('Ranking'));
-    // console.log(allPlayers);
     return (
       <>
         <div>
@@ -36,16 +35,12 @@ class Ranking extends React.Component {
           {
             allPlayers.sort((a, b) => b.score - a.score).map((player, index) => ( // allplayers nao esta sendo reconhecido como array
               <div key={ index }>
-                <img src={ player.picture } alt="imagem do avatar do jogador" />
-                <p data-testid={ `player-name-${player.name}` }>{ player.name }</p>
-                <p data-testid={ `player-score-${player.score}` }>{ player.score }</p>
+                <img src={ `https://www.gravatar.com/avatar/${md5(player.piture).toString()}` } alt="imagem do avatar do jogador" />
+                <p data-testid={ `player-name-${index}` }>{ player.name }</p>
+                <p data-testid={ `player-score-${index}` }>{ player.score }</p>
               </div>
             ))
           }
-          {/*
-          <img src="ImagemVindaDoGravatar" alt="imagem do avatar do jogador" />
-          <p data-testid={ `player-name-${player.name}` } />
-          <p data-testid={ `player-score-${player.score}` } /> */}
         </div>
         <Link to="/">
           <button data-testid="btn-go-home">Voltar ao inicio</button>
