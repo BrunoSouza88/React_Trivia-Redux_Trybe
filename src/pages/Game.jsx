@@ -20,7 +20,7 @@ class Game extends React.Component {
     },
     sortAnswer: [],
     questionPosition: 0,
-    time: 10,
+    time: 30,
     isDisable: false,
     answerClass: false,
   };
@@ -70,7 +70,7 @@ class Game extends React.Component {
   setScore = (questionSelect, time, question) => {
     const { player, dispatch } = this.props;
     const { difficulty } = question;
-    const scoreBase = 10;
+    const scoreBase = 30;
     let { score, assertions } = player;
     const scoreDifficulty = {
       easy: 1,
@@ -88,11 +88,11 @@ class Game extends React.Component {
     this.setState({
       answerClass: false,
     });
-    const position = 6;
+    const position = 5;
     const { questionPosition } = this.state;
     this.StartTime();
     this.stopWatch();
-    if (questionPosition < position) {
+    if (questionPosition <= position) {
       this.generateQuestion();
     } else {
       const { history } = this.props;
@@ -133,7 +133,7 @@ class Game extends React.Component {
 
   StartTime = () => {
     this.setState({
-      time: 10,
+      time: 30,
       isDisable: false,
     });
   };
