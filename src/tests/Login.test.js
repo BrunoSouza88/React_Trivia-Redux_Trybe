@@ -1,18 +1,19 @@
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App from '../App';
 import Login from '../pages/Login';
 import { renderWithRouterAndRedux } from './helpers/renderWithRouterAndRedux';
 
-const testName = 'input-player-name';
-const testEmail = 'input-gravatar-email';
-
 describe('Cobertura de testes da tela de Login', () => {
+  const cosntEmail = 'input-gravatar-email';
+  const constName = 'input-player-name';
+  const email = 'teste@teste.com';
+
   test('Verificando se os campos aparecem na tela', () => {
     renderWithRouterAndRedux(<Login />);
 
-    const emailInput = screen.getByTestId('input-gravatar-email');
-    const nameInput = screen.getByTestId('input-player-name');
+    const emailInput = screen.getByTestId(cosntEmail);
+    const nameInput = screen.getByTestId(constName);
     const playInput = screen.getByRole('button', {
       name: /play/i,
     });
@@ -26,18 +27,15 @@ describe('Cobertura de testes da tela de Login', () => {
   test('Verificando se botão Play é habilitado se dados corretos', () => {
     renderWithRouterAndRedux(<Login />);
 
-    const emailToTest = 'teste@teste.com';
-    const nameToTest = 'Joennet Doe';
-
-    const emailInput = screen.getByTestId('input-gravatar-email');
-    const nameInput = screen.getByTestId('input-player-name');
+    const emailInput = screen.getByTestId(cosntEmail);
+    const nameInput = screen.getByTestId(constName);
     const playInput = screen.getByRole('button', {
       name: /play/i,
     });
     expect(playInput).toBeDisabled();
 
-    userEvent.type(emailInput, emailToTest);
-    userEvent.type(nameInput, nameToTest);
+    userEvent.type(emailInput, email);
+    userEvent.type(nameInput, 'John Doe');
 
     expect(playInput).toBeEnabled();
   });
@@ -47,11 +45,10 @@ describe('Cobertura de testes da tela de Login', () => {
 
     const wrongEmail = 'teste@teste.c';
     const wrongName = '';
-    const rightEmail = 'teste@teste.com';
-    const rightName = 'Joennet Doe';
+    const rightEmail = email;
 
-    const emailInput = screen.getByTestId('input-gravatar-email');
-    const nameInput = screen.getByTestId('input-player-name');
+    const emailInput = screen.getByTestId(cosntEmail);
+    const nameInput = screen.getByTestId(constName);
     const playInput = screen.getByRole('button', {
       name: /play/i,
     });
@@ -59,7 +56,7 @@ describe('Cobertura de testes da tela de Login', () => {
     expect(playInput).toBeDisabled();
 
     userEvent.type(emailInput, wrongEmail);
-    userEvent.type(nameInput, rightName);
+    userEvent.type(nameInput, email);
 
     expect(playInput).toBeDisabled();
 
@@ -68,57 +65,59 @@ describe('Cobertura de testes da tela de Login', () => {
 
     expect(playInput).toBeDisabled();
   });
-  
-  test('Verificando se o botão de "play" está desabilitado quando o formulário não estiver preenchido', () => {
+
+  test('Verificando se botão "play" está desabilitado quando formulário vazio', () => {
     renderWithRouterAndRedux(<App />);
 
     expect(screen.getByTestId('btn-play')).toBeDisabled();
   });
 
-  test('Verificando se quando inserimos somente valor no campo de nome, o botão fica desabilitado', () => {
+  test('Quando inserimos somente valor nome, o botão fica desabilitado', () => {
     renderWithRouterAndRedux(<Login />);
+    const nameInput = screen.getByTestId(constName);
 
-    const nameInput = screen.getByTestId('input-player-name');
     const playBtn = screen.getByTestId('btn-play');
-    userEvent.type(nameInput, 'Joennet Doe');
+    userEvent.type(nameInput, 'John Doe');
     expect(playBtn).toBeDisabled();
   });
 
-  test('Verficando se quando inserimos somente valor no campo de e-mail, o botão fica desabilitado', () => {
+  test('Quando inserido somente valor de e-mail, o botão fica desabilitado', () => {
     renderWithRouterAndRedux(<Login />);
 
-    const emailInput = screen.getByTestId('input-gravatar-email');
+    const emailInput = screen.getByTestId(cosntEmail);
+
     const playBtn = screen.getByTestId('btn-play');
-    userEvent.type(emailInput, 'teste@teste.com');
+    userEvent.type(emailInput, email);
     expect(playBtn).toBeDisabled();
   });
 
   test('Verificando se ao clicar no botão "Play", ', () => {
-    const { history } =  renderWithRouterAndRedux(<App />);
- 
-     const settingButton = screen.getByTestId("btn-settings");
- 
-     userEvent.click(settingButton);
- 
-     const { pathname } = history.location;
-     expect(pathname).toBe('/settings');
-   });
-
-  test('Verificando se usuario é encaminhado para a pagina GAME após clicar no botão play', () => {
     const { history } = renderWithRouterAndRedux(<App />);
 
-    const nameInput = screen.getByTestId('input-player-name');
-    const emailInput = screen.getByTestId('input-gravatar-email');
-    const playBtn = screen.getByTestId('btn-play');
+    const settingButton = screen.getByTestId('btn-settings');
 
-    userEvent.type(nameInput, 'Joennet Doe');
-    userEvent.type(emailInput, 'teste@teste.com');
-    userEvent.click(playBtn);
+    userEvent.click(settingButton);
+
     const { pathname } = history.location;
-    expect(pathname).toBe('/game');
+    expect(pathname).toBe('/settings');
   });
 
-  
+  test('Se usuario é encaminhado para pagina GAME ao clicar no botão play', async () => {
+    const { history } = renderWithRouterAndRedux(<App />);
 
+    const nameInput = screen.getByTestId(constName);
+    const emailInput = screen.getByTestId(cosntEmail);
+    const playBtn = screen.getByRole('button', {
+      name: /play/i,
+    });
 
+    userEvent.type(nameInput, 'John Doe');
+    userEvent.type(emailInput, 'test@teste.com');
+
+    userEvent.click(playBtn);
+    await waitFor(() => {
+      const { pathname } = history.location;
+      expect(pathname).toBe('/game');
+    });
+  });
 });
