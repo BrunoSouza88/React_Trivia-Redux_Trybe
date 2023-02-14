@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { addEmail, addName, addScore, fetchToken } from '../redux/actions';
+import './Login.css';
 
 class Login extends React.Component {
   state = {
@@ -62,9 +63,10 @@ class Login extends React.Component {
     } = this.state;
 
     return (
-      <div>
-        <div>
+      <div className="loginPage">
+        <div className="loginFormPage">
           <form action="form">
+            <p>Type you email and name for the ranking</p>
             <input
               type="email"
               name="email"
@@ -100,6 +102,7 @@ class Login extends React.Component {
             type="button"
             title="ConfigButton"
             data-testid="btn-settings"
+            className="settings-btn"
           >
             Configuração
           </button>
