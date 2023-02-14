@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './MultipleChoice.css';
 
+import '../pages/Game.css';
+
 export default class MultipleChoice extends Component {
   setClass = (question, correct) => {
     const { answerClass } = this.props;
@@ -16,7 +18,7 @@ export default class MultipleChoice extends Component {
   render() {
     const { answer, correct, isDisabled, verifyAnswer } = this.props;
     return (
-      <div data-testid="answer-options">
+      <div data-testid="answer-options" className="questionsBtn">
         {
           answer.map((question, index) => (
             <button
@@ -31,6 +33,7 @@ export default class MultipleChoice extends Component {
               onClick={ verifyAnswer }
               className={ this.setClass(question, correct) }
             >
+
               {question}
             </button>
           ))

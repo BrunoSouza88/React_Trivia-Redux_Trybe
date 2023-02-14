@@ -1,0 +1,30 @@
+header {
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  display: flex;
+  height: 3rem;
+  justify-content: flex-end;
+  margin-bottom: 1%;
+  padding-right: 10%;
+}
+
+header img {
+  border-radius: 50%;
+  height: 60%;
+  margin-right: 2%;
+}
+
+header h2 {
+  color: white;
+  margin-right: 5%;
+}
+
+.userScore {
+  margin-right: 1%;
+}
+
+header p {
+  color: white;
+  font-weight: 500;
+}
