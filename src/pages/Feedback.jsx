@@ -2,7 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import Header from '../components/Header';
+import md5 from 'crypto-js/md5';
+import './Feedback.css';
 // import savingRankingLocalStorage from '../components/Ranking';
 
 // INICIAL_STATE = {
@@ -56,37 +57,67 @@ class Feedback extends React.Component {
     const { player: {
       assertions,
       score,
+      name,
+      gravatarEmail,
     } } = this.props;
     const { feebackMsg } = this.state;
     return (
-      <div>
-        <Header />
-        <h2
-          data-testid="feedback-total-score"
-        >
-          {score}
-        </h2>
-        <h2
-          data-testid="feedback-total-question"
-        >
-          {assertions}
-        </h2>
-        <p
-          data-testid="feedback-text"
-        >
-          {feebackMsg}
+      <>
+        <p data-testid="header-score" className="userScoreFb">
+          { score }
         </p>
-        <Link to="/">
-          <button
-            data-testid="btn-play-again"
+        <div className="feedbackConteiner">
+          <img
+            data-testid="header-profile-picture"
+            src={ `https://www.gravatar.com/avatar/${md5(gravatarEmail).toString()}` }
+            alt="Imagem gravatar"
+            className={
+              assertions > 2 ? 'wellDoneFbImg' : 'couldBeBetterFbImg'
+            }
+          />
+          <h2 data-testid="header-player-name">
+            { name }
+          </h2>
+          <h2
+            data-testid="feedback-text"
+            className={
+              assertions > 2 ? 'wellDoneFb' : 'couldBeBetterFb'
+            }
           >
-            Play Again
-          </button>
-        </Link>
-        <Link to="/ranking">
-          <button data-testid="btn-ranking">Ranking</button>
-        </Link>
-      </div>
+            {feebackMsg}
+          </h2>
+          <div className="assertationFb">
+            <h2>You have got</h2>
+            <h2
+              data-testid="feedback-total-question"
+            >
+              {assertions}
+            </h2>
+            <h2>of 5</h2>
+          </div>
+          <div className="assertationFb">
+            <h2
+              data-testid="feedback-total-score"
+            >
+              {score}
+            </h2>
+            <h2> points </h2>
+          </div>
+          <div className="feedbackBtns">
+            <Link to="/">
+              <button
+                data-testid="btn-play-again"
+                className="playAgainBtn"
+              >
+                Play Again
+              </button>
+            </Link>
+            <Link to="/ranking">
+              <button data-testid="btn-ranking" className="verRankingBtn">Ranking</button>
+            </Link>
+          </div>
+        </div>
+      </>
     );
   }
 }
