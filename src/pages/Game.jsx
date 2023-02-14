@@ -1,11 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { AiOutlineFieldTime } from 'react-icons/ai';
 import MultipleChoice from '../components/MultipleChoice';
 import Header from '../components/Header';
 import { addAssertions, addScore } from '../redux/actions';
-
 import './Game.css';
+import Fireworks from './Fireworks';
+import SadMusic from './SadMusic';
 
 class Game extends React.Component {
   state = {
@@ -23,6 +25,8 @@ class Game extends React.Component {
     time: 30,
     isDisable: false,
     answerClass: false,
+    fireWorks: false,
+    sadSong: false,
   };
 
   componentDidMount() {
@@ -72,21 +76,23 @@ class Game extends React.Component {
     const { difficulty } = question;
     const scoreBase = 30;
     let { score, assertions } = player;
-    const scoreDifficulty = {
-      easy: 1,
-      medium: 2,
-      hard: 3,
+    const scoreDifficulty = { easy: 1, medium: 2, hard: 3,
     };
     if (questionSelect === question.correct_answer) {
       score += (scoreBase + (time * scoreDifficulty[difficulty]));
       dispatch(addScore(score));
       dispatch(addAssertions(assertions += 1));
+      this.setState({ fireWorks: true, sadSong: false });
+    } else {
+      this.setState({ fireWorks: false, sadSong: true });
     }
   };
 
   nextQuestion = () => {
     this.setState({
       answerClass: false,
+      fireWorks: false,
+      sadSong: false,
     });
     const position = 5;
     const { questionPosition } = this.state;
@@ -167,43 +173,60 @@ class Game extends React.Component {
       sortAnswer,
       isDisable,
       answerClass,
+      fireWorks,
+      sadSong,
     } = this.state;
 
     return (
       <div>
         <Header />
-        <p data-testid="question-category">
-          { question.category }
-        </p>
-        <p data-testid="question-text">
-          { question.question }
-        </p>
-        {
-          sortAnswer
-            ? (
-              <>
-                <p>{time}</p>
-                <MultipleChoice
-                  verifyAnswer={ this.verifyAnswer }
-                  answer={ sortAnswer }
-                  correct={ question.correct_answer }
-                  isDisabled={ isDisable }
-                  answerClass={ answerClass }
-                />
-              </>
-            )
-            : null
-        }
-        {
-          answerClass || time === 0 ? (
-            <button
-              type="button"
-              onClick={ this.nextQuestion }
-              data-testid="btn-next"
-            >
-              Next
-            </button>) : null
-        }
+        <section className="gameConteiner">
+          <div className="gameLeftBox">
+            <p data-testid="question-category" className="questionCategory">
+              { question.category }
+            </p>
+            <p data-testid="question-text" className="question-text">
+              { question.question }
+            </p>
+            <div className="time-box">
+              <AiOutlineFieldTime />
+              <p>
+                Time:
+              </p>
+              <p>{time}</p>
+              <p>seconds</p>
+            </div>
+          </div>
+          <div className="questions-box">
+            {
+              sortAnswer
+                ? (
+
+                  <MultipleChoice
+                    verifyAnswer={ this.verifyAnswer }
+                    answer={ sortAnswer }
+                    correct={ question.correct_answer }
+                    isDisabled={ isDisable }
+                    answerClass={ answerClass }
+                  />
+                )
+                : null
+            }
+            {
+              answerClass || time === 0 ? (
+                <button
+                  type="button"
+                  onClick={ this.nextQuestion }
+                  data-testid="btn-next"
+                  className="nextBtn"
+                >
+                  Next
+                </button>) : null
+            }
+          </div>
+        </section>
+        { fireWorks && <Fireworks />}
+        { sadSong && <SadMusic />}
       </div>
     );
   }
