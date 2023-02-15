@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { addEmail, addName, addScore, fetchToken } from '../redux/actions';
 import './Login.css';
+import logoTrivia from '../logoTrivia.png';
 
 class Login extends React.Component {
   state = {
@@ -64,28 +65,31 @@ class Login extends React.Component {
 
     return (
       <div className="loginPage">
+        <img src={ logoTrivia } alt="logoTrivia" />
         <div className="loginFormPage">
           <form action="form">
             <p>Type you email and name for the ranking</p>
-            <input
-              type="email"
-              name="email"
-              id="email"
-              value={ email }
-              data-testid="input-gravatar-email"
-              onChange={ this.verifyEmail }
-              className="loginInput"
-              placeholder="E-mail"
-            />
-            <input
-              type="text"
-              name="name"
-              id="name"
-              value={ name }
-              data-testid="input-player-name"
-              onChange={ this.verifyName }
-              placeholder="Digite seu nome"
-            />
+            <div className="loginInpts">
+              <input
+                type="email"
+                name="email"
+                id="email"
+                value={ email }
+                data-testid="input-gravatar-email"
+                onChange={ this.verifyEmail }
+                className="loginInput"
+                placeholder="E-mail"
+              />
+              <input
+                type="text"
+                name="name"
+                id="name"
+                value={ name }
+                data-testid="input-player-name"
+                onChange={ this.verifyName }
+                placeholder="Digite seu nome"
+              />
+            </div>
           </form>
           <button
             type="button"
