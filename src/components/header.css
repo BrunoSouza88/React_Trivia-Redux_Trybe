@@ -5,8 +5,11 @@ header {
   display: flex;
   height: 3rem;
   justify-content: flex-end;
-  margin-bottom: 1%;
+  left: 0;
   padding-right: 10%;
+  position: fixed;
+  top: 0;
+  width: 90%;
 }
 
 header img {
@@ -27,4 +30,16 @@ header h2 {
 header p {
   color: white;
   font-weight: 500;
+}
+
+@media screen and ( max-width : 767px ) {
+
+  header {
+    align-items: center;
+    justify-content: center;
+    padding-right: 0;
+    position: fixed;
+    top: 0;
+    width: 100vw;
+  }
 }

@@ -178,7 +178,7 @@ class Game extends React.Component {
     } = this.state;
 
     return (
-      <div>
+      <div className="mainGame">
         <Header />
         <section className="gameConteiner">
           <div className="gameLeftBox">

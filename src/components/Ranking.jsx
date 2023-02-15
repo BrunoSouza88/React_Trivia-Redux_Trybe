@@ -9,19 +9,25 @@ class Ranking extends React.Component {
   render() {
     const allPlayers = JSON.parse(localStorage.getItem('Ranking'));
     return (
-      <div className="feedbackConteiner">
+      <div className="rankingConteiner">
         <h1 data-testid="ranking-title">Tela de Ranking</h1>
         {
-          allPlayers.sort((a, b) => b.score - a.score).map((player, index) => (
-            <div key={ index } className="playerPosition">
-              <img src={ `https://www.gravatar.com/avatar/${md5(player.piture).toString()}` } alt="imagem do avatar do jogador" />
-              <p data-testid={ `player-name-${index}` }>{ player.name }</p>
-              <div className="playerPoints">
-                <p data-testid={ `player-score-${index}` }>{ player.score }</p>
-                <p> points </p>
+          allPlayers && allPlayers
+            .sort((a, b) => b.score - a.score).map((player, index) => (
+              <div key={ index } className="playerPosition">
+                <img src={ `https://www.gravatar.com/avatar/${md5(player.piture).toString()}` } alt="imagem do avatar do jogador" />
+                <p
+                  data-testid={ `player-name-${index}` }
+                  className="playerName"
+                >
+                  { player.name }
+                </p>
+                <div className="playerPoints">
+                  <p data-testid={ `player-score-${index}` }>{ player.score }</p>
+                  <p> points </p>
+                </div>
               </div>
-            </div>
-          ))
+            ))
         }
         <Link to="/">
           <button
